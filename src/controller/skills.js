@@ -8,7 +8,7 @@ import { authenticate } from '../middleware/authMiddleware';
 export default ({ config, db }) => {
     let api = Router();
 
-    api.post('/add', (req, res) => {
+    api.post('/add', authenticate, (req, res) => {
         let newSkill= new Skill();
         newSkill.name = req.body.name;
         newSkill.coolness = req.body.coolness;
@@ -24,7 +24,7 @@ export default ({ config, db }) => {
         });
     });
 
-    api.get('/', (req, res) => {
+    api.get('/', authenticate, (req, res) => {
         Skill.find({}, (err, skills) => {
             if (err) {
                 res.send(err);
